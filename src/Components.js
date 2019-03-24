@@ -42,6 +42,10 @@ const products = [
 ]
 
 class ProductList extends React.Component {
+  handleVoteChange(productID) {
+    console.log('Product ' + productID + ' was upvoted.');
+  }
+
   render() {
     const productsList = products.map((product) =>
       <Product
@@ -53,6 +57,7 @@ class ProductList extends React.Component {
         votes={product.votes}
         submitterAvatarUrl={product.submitterAvatarUrl}
         productImageUrl={product.productImageUrl}
+        onVote={this.handleVoteChange}
       />
     )
     return (
@@ -67,6 +72,16 @@ export default ProductList;
 
 
 class Product extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleUpVote = this.handleUpVote.bind(this);
+  }
+
+  handleUpVote() {
+    this.props.onVote(this.props.id);
+  }
+
   render() {
     return (
       <div className='item'>
@@ -78,7 +93,7 @@ class Product extends React.Component {
         <div className='middle aligned content'>
 
           <div className='header'>
-            <a>
+            <a onClick={this.handleUpVote}>
             <i className='large caret up icon' />
             </a>
             {this.props.votes}
